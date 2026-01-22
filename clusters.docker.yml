@@ -1,0 +1,24 @@
+# Kafka Lens - Docker Environment Cluster Configuration
+# This file is mounted into the container
+
+clusters:
+  - id: docker-kafka
+    name: "Docker Kafka"
+    description: "Docker Compose Kafka 클러스터"
+    environment: development
+    bootstrap-servers:
+      - kafka:9092
+    security:
+      protocol: PLAINTEXT
+    properties:
+      request.timeout.ms: 30000
+      connections.max.idle.ms: 300000
+
+defaults:
+  security:
+    protocol: PLAINTEXT
+  properties:
+    request.timeout.ms: 30000
+    connections.max.idle.ms: 300000
+    reconnect.backoff.ms: 1000
+    reconnect.backoff.max.ms: 10000

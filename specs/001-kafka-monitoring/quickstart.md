@@ -117,6 +117,21 @@ curl -u admin:admin http://localhost:8080/api/v1/clusters/local/consumer-groups/
 
 ## 8. 프로덕션 빌드
 
+### 방법 1: 빌드 스크립트 사용 (권장)
+
+```bash
+# Linux/macOS
+./build.sh
+
+# Windows
+build.bat
+
+# 실행
+java -jar kafka-lens-backend/target/kafka-lens-backend-0.0.1-SNAPSHOT.jar
+```
+
+### 방법 2: 수동 빌드
+
 ```bash
 # 프론트엔드 빌드
 cd kafka-lens-frontend
@@ -131,6 +146,19 @@ mvn clean package
 
 # 실행
 java -jar target/kafka-lens-backend-0.0.1-SNAPSHOT.jar
+```
+
+### 방법 3: Docker Compose (개발 환경)
+
+```bash
+# 빌드 및 실행
+docker-compose up --build
+
+# 백그라운드 실행
+docker-compose up -d --build
+
+# 중지
+docker-compose down
 ```
 
 ## 환경 변수

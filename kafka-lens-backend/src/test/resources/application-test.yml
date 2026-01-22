@@ -1,0 +1,48 @@
+# 테스트 환경 설정
+# 통합 테스트 및 단위 테스트용 설정
+
+spring:
+  main:
+    # 테스트 시 웹 환경 비활성화 가능
+    web-application-type: servlet
+    # Bean 이름 충돌 허용 (KafkaConsumerFactory와 Spring의 kafkaConsumerFactory)
+    allow-bean-definition-overriding: true
+
+# Kafka 테스트 설정
+kafka:
+  admin:
+    request-timeout-ms: 10000
+    connection-timeout-ms: 5000
+    default-api-timeout-ms: 30000
+    retries: 1
+    retry-backoff-ms: 500
+
+# 테스트용 클러스터 설정
+kafkalens:
+  clusters:
+    config-path: classpath:clusters-test.yml
+
+# Security 설정 (테스트용)
+security:
+  users:
+    - username: admin
+      password: admin
+      roles:
+        - ADMIN
+
+# Actuator 설정 (테스트용)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+
+# 테스트 로깅 설정
+logging:
+  level:
+    com.kafkalens: DEBUG
+    org.apache.kafka: WARN
+    org.testcontainers: INFO

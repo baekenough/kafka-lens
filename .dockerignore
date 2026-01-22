@@ -1,0 +1,40 @@
+# Git
+.git
+.gitignore
+
+# IDE
+.idea
+.vscode
+*.iml
+
+# Build outputs
+**/target
+**/build
+**/node_modules
+**/dist
+
+# Documentation
+docs
+specs
+*.md
+!README.md
+
+# Environment files
+.env
+.env.*
+
+# Logs
+*.log
+logs
+
+# Test files
+**/*Test.java
+**/*Tests.java
+**/test
+
+# Frontend (if building backend only)
+kafka-lens-frontend
+
+# Claude/AI files
+.claude
+.specify

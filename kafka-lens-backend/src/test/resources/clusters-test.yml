@@ -1,0 +1,37 @@
+# Kafka Lens - Test Cluster Configuration
+# 테스트 환경용 클러스터 설정
+#
+# Testcontainers를 통해 동적으로 부트스트랩 서버가 설정됩니다.
+
+clusters:
+  # 테스트용 클러스터 (Testcontainers에 의해 오버라이드됨)
+  - id: test-cluster
+    name: "Test Cluster"
+    description: "테스트 환경 Kafka 클러스터 (Testcontainers)"
+    environment: test
+    bootstrap-servers:
+      - localhost:9092  # Testcontainers에 의해 동적 할당
+    security:
+      protocol: PLAINTEXT
+    properties:
+      request.timeout.ms: 10000
+      connections.max.idle.ms: 60000
+
+  # 로컬 클러스터 (통합 테스트용)
+  - id: local
+    name: "Local Cluster"
+    description: "통합 테스트용 로컬 Kafka 클러스터"
+    environment: development
+    bootstrap-servers:
+      - localhost:9092
+    security:
+      protocol: PLAINTEXT
+    properties:
+      request.timeout.ms: 10000
+      connections.max.idle.ms: 60000
+
+defaults:
+  security:
+    protocol: PLAINTEXT
+  properties:
+    request.timeout.ms: 10000

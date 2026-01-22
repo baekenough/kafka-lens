@@ -1,0 +1,77 @@
+# Kafka Lens - Cluster Configuration
+# 클러스터 연결 설정 파일
+#
+# 이 파일에서 여러 Kafka 클러스터를 정의할 수 있습니다.
+# 각 클러스터는 고유한 ID와 연결 정보를 가집니다.
+#
+# 보안 주의사항:
+# - 프로덕션 환경에서는 이 파일을 버전 관리에서 제외하세요.
+# - 민감한 정보(비밀번호, 인증서)는 환경 변수나 시크릿 매니저를 사용하세요.
+
+clusters:
+  # 로컬 개발용 클러스터 예시
+  - id: local-dev
+    name: "Local Development"
+    description: "로컬 개발 환경 Kafka 클러스터"
+    environment: development
+    bootstrap-servers:
+      - localhost:9092
+    # 인증 설정 (선택사항)
+    security:
+      protocol: PLAINTEXT  # PLAINTEXT, SSL, SASL_PLAINTEXT, SASL_SSL
+    # 추가 Admin Client 설정 (선택사항)
+    properties:
+      request.timeout.ms: 30000
+      connections.max.idle.ms: 300000
+
+  # SASL/SCRAM 인증 클러스터 예시
+  # - id: staging-cluster
+  #   name: "Staging Cluster"
+  #   description: "스테이징 환경 Kafka 클러스터"
+  #   environment: staging
+  #   bootstrap-servers:
+  #     - kafka-staging-1.example.com:9093
+  #     - kafka-staging-2.example.com:9093
+  #     - kafka-staging-3.example.com:9093
+  #   security:
+  #     protocol: SASL_SSL
+  #     sasl:
+  #       mechanism: SCRAM-SHA-512
+  #       username: ${KAFKA_STAGING_USERNAME}
+  #       password: ${KAFKA_STAGING_PASSWORD}
+  #     ssl:
+  #       truststore-location: /path/to/truststore.jks
+  #       truststore-password: ${TRUSTSTORE_PASSWORD}
+  #   properties:
+  #     request.timeout.ms: 30000
+
+  # SSL 인증 클러스터 예시
+  # - id: production-cluster
+  #   name: "Production Cluster"
+  #   description: "프로덕션 환경 Kafka 클러스터"
+  #   environment: production
+  #   bootstrap-servers:
+  #     - kafka-prod-1.example.com:9093
+  #     - kafka-prod-2.example.com:9093
+  #     - kafka-prod-3.example.com:9093
+  #   security:
+  #     protocol: SSL
+  #     ssl:
+  #       keystore-location: /path/to/keystore.jks
+  #       keystore-password: ${KEYSTORE_PASSWORD}
+  #       key-password: ${KEY_PASSWORD}
+  #       truststore-location: /path/to/truststore.jks
+  #       truststore-password: ${TRUSTSTORE_PASSWORD}
+  #   properties:
+  #     request.timeout.ms: 60000
+  #     connections.max.idle.ms: 540000
+
+# 기본 설정 (모든 클러스터에 적용)
+defaults:
+  security:
+    protocol: PLAINTEXT
+  properties:
+    request.timeout.ms: 30000
+    connections.max.idle.ms: 300000
+    reconnect.backoff.ms: 1000
+    reconnect.backoff.max.ms: 10000

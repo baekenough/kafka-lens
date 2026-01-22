@@ -1,0 +1,115 @@
+# Kafka Lens Backend Configuration
+# 애플리케이션 기본 설정
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+  error:
+    include-message: always
+    include-binding-errors: always
+
+spring:
+  application:
+    name: kafka-lens-backend
+
+  # 프로파일 설정
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local}
+
+  # Jackson 설정
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+      indent-output: true
+    deserialization:
+      fail-on-unknown-properties: false
+    default-property-inclusion: non_null
+
+# Kafka Admin Client 기본 설정
+kafka:
+  admin:
+    # 요청 타임아웃 (밀리초)
+    request-timeout-ms: 30000
+    # 연결 타임아웃 (밀리초)
+    connection-timeout-ms: 10000
+    # 기본 API 타임아웃 (밀리초)
+    default-api-timeout-ms: 60000
+    # 재시도 횟수
+    retries: 3
+    # 재시도 백오프 (밀리초)
+    retry-backoff-ms: 1000
+
+# 클러스터 설정 파일 경로
+kafkalens:
+  clusters:
+    config-path: classpath:clusters.yml
+
+# Security 설정
+# 사용자 정보 (환경 변수로 비밀번호 설정 권장)
+security:
+  users:
+    - username: admin
+      password: ${ADMIN_PASSWORD:admin}
+      roles:
+        - ADMIN
+
+# 로깅 설정
+logging:
+  level:
+    root: INFO
+    com.kafkalens: DEBUG
+    org.apache.kafka: WARN
+    org.springframework.kafka: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
+# Actuator 설정 (향후 모니터링용)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when_authorized
+
+---
+# 로컬 개발 환경 설정
+spring:
+  config:
+    activate:
+      on-profile: local
+
+logging:
+  level:
+    com.kafkalens: DEBUG
+
+---
+# 테스트 환경 설정
+spring:
+  config:
+    activate:
+      on-profile: test
+
+kafka:
+  admin:
+    request-timeout-ms: 10000
+    connection-timeout-ms: 5000
+
+logging:
+  level:
+    com.kafkalens: DEBUG
+    org.testcontainers: INFO
+
+---
+# 프로덕션 환경 설정
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+logging:
+  level:
+    root: WARN
+    com.kafkalens: INFO

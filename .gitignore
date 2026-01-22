@@ -1,0 +1,34 @@
+# Backend
+kafka-lens-backend/target/
+kafka-lens-backend/*.log
+kafka-lens-backend/.mvn/wrapper/maven-wrapper.jar
+
+# Frontend
+kafka-lens-frontend/node_modules/
+kafka-lens-frontend/.next/
+kafka-lens-frontend/out/
+kafka-lens-frontend/.env*.local
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Build
+dist/
+build/
